@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client'
+
+const socket = io('http://localhost:4000')
+const userName = 'User ' + parseInt(Math.random() * 10)
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+     const [message, setMessage] = useState('')
+     const [ chat, setChat] = useState([])
+
+     useEffect(() => {
+          socket.on('message', payload => {
+               setChat([...chat, payload])
+          })
+     })
+
+     const sendMessage = (e) => {
+          e.preventDefault();
+          socket.emit('message', {userName, message})
+          setMessage('')
+     }
+
+     return (
+          <div className="App">
+               <h1>Socket Chat App</h1>
+               <form onSubmit={sendMessage}>
+                    <input
+                         type="text"
+                         name="message"
+                         placeholder="Type message"
+                         value={message}
+                         onChange={(e) => { setMessage(e.target.value) }}>
+                    </input>
+                    <button type="submit">Send</button>
+               </form>
+               {chat.map((payload, index) => {
+                    return (
+                         <h3 key={index} >{payload.userName}: <span>{payload.message}</span></h3>
+                    )
+               })}
+          </div>
+     );
 }
 
 export default App;
