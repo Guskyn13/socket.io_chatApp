@@ -1,45 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client'
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-const socket = io('http://localhost:4000')
-const userName = 'User ' + parseInt(Math.random() * 10)
+import Join from './components/Join/Join'
+import Chat from './components/Chat/Chat'
 
-function App() {
-     const [message, setMessage] = useState('')
-     const [ chat, setChat] = useState([])
+// const userName = 'User ' + parseInt(Math.random() * 10)
 
-     useEffect(() => {
-          socket.on('message', payload => {
-               setChat([...chat, payload])
-          })
-     })
+// function App() {
+//      const [message, setMessage] = useState('')
+//      const [ chat, setChat] = useState([])
 
-     const sendMessage = (e) => {
-          e.preventDefault();
-          socket.emit('message', {userName, message})
-          setMessage('')
-     }
+//      useEffect(() => {
+//           socket.on('message', payload => {
+//                setChat([...chat, payload])
+//           })
+//      })
 
-     return (
-          <div className="App">
-               <h1>Socket Chat App</h1>
-               <form onSubmit={sendMessage}>
-                    <input
-                         type="text"
-                         name="message"
-                         placeholder="Type message"
-                         value={message}
-                         onChange={(e) => { setMessage(e.target.value) }}>
-                    </input>
-                    <button type="submit">Send</button>
-               </form>
-               {chat.map((payload, index) => {
-                    return (
-                         <h3 key={index} >{payload.userName}: <span>{payload.message}</span></h3>
-                    )
-               })}
-          </div>
-     );
+//      const sendMessage = (e) => {
+//           e.preventDefault();
+//           
+//           setMessage('')
+//      }
+
+//      return (
+//           <div className="App">
+//                <h1>Socket Chat App</h1>
+//                <form onSubmit={sendMessage}>
+//                     <input
+//                          type="text"
+//                          name="message"
+//                          placeholder="Type message"
+//                          value={message}
+//                          onChange={(e) => { setMessage(e.target.value) }}>
+//                     </input>
+//                     <button type="submit">Send</button>
+//                </form>
+//                {chat.map((payload, index) => {
+//                     return (
+//                          <h3 key={index} >{payload.userName}: <span>{payload.message}</span></h3>
+//                     )
+//                })}
+//           </div>
+//      );
+// }
+
+const App = () => {
+     return(
+     <Router>
+          <Route path="/" exact component={Join} />
+          <Route path="/chat" exact component={Chat} />
+     </Router>
+     )
 }
 
 export default App;
