@@ -6,7 +6,7 @@ const InfoBar = ({ room }) => (
           <div className="leftInnerContainer">
                <h3>{room}</h3>
                <div className="rightInnerContainer">
-                    <a href="/">Exit Button</a>
+                    <a href="/">Exit Room</a>
                </div>
           </div>
      </div>

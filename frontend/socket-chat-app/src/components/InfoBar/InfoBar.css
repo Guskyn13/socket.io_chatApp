@@ -23,3 +23,13 @@
      margin-right: 7%;
      color: #fff;
 }
+
+.rightInnerContainer a {
+     text-decoration: none;
+     color: #fff;
+     transition: 1s;
+}
+
+.rightInnerContainer a:hover {
+     color: red;
+}
