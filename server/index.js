@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 5000
 
 const router = require('./router')
 
+// making a simple change
+
 app.use(cors())
 app.use(router)
 
